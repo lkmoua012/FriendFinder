@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Friend Finder - Survey</title>
+  <!-- Latest compiled and minified CSS & JS -->
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
+  <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.5.0/css/all.css" integrity="sha384-B4dIYHKNBt8Bc12p+WXckhzcICo0wtJAoU8YZTY5qE0Id1GSseTk6S+L3BlXeVIU" crossorigin="anonymous">
+  <script src="https://code.jquery.com/jquery.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
+
+</head>
+<body>
+
+  <div class="container">
+    <div class="jumbotron">
+        <h1 class="text-center"><i class="fas fa-user-friends"></i> Friend Finder</h1>
+        <hr>
+        <h2 class="text-center">Find your friend match today!</h2>
+        <br>
+    </div>
+    <div class="row">
+
+      <div class="col-12">
+
+        <div class="card">
+          <div class="card-header">
+            <h3><strong>Complete Your Profile</strong></h3>
+          </div>
+          <div class="card-body">
+            <form method="POST" role="form">
+
+              <div class="form-group">
+                <label for="name">Full Name</label>
+                <input type="text" class="form-control" id="name">
+              </div>
+
+              <div class="form-group">
+                <label for="sel1">How much do you like pets?</label>
+                <select class="form-control" id="sel1">
+                  <option value="1">1 - Not so much</option>
+                  <option value="2">2</option>
+                  <option value="3">3 - Indifferent</option>
+                  <option value="4">4</option>
+                  <option value="5">5 - A lot</option>
+                </select>
+              </div>
+
+              <div class="form-group">
+                <label for="sel2">How often do you go to the movies?</label>
+                <select class="form-control" id="sel2">
+                  <option value="1">1 - Not so much</option>
+                  <option value="2">2</option>
+                  <option value="3">3 - Indifferent</option>
+                  <option value="4">4</option>
+                  <option value="5">5 - A lot</option>
+                </select>
+              </div>
+
+              <div class="form-group">
+                <label for="sel3">How often do you go outdoors?</label>
+                <select class="form-control" id="sel3">
+                  <option value="1">1 - Not so much</option>
+                  <option value="2">2</option>
+                  <option value="3">3 - Indifferent</option>
+                  <option value="4">4</option>
+                  <option value="5">5 - A lot</option>
+                </select>
+              </div>
+
+              <div class="form-group">
+                <label for="sel4">How often do you eat out?</label>
+                <select class="form-control" id="sel3">
+                  <option value="1">1 - Not so much</option>
+                  <option value="2">2</option>
+                  <option value="3">3 - Indifferent</option>
+                  <option value="4">4</option>
+                  <option value="5">5 - A lot</option>
+                </select>
+              </div>
+
+            </form>
+            <br>
+            <div class="text-right">
+              <button type="submit" class="btn btn-primary btn-md" id="add-btn"><span class="fa fa-fire"></span> Find a Match!</button>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+
+  <script type="text/javascript">
+    $("#add-btn").on("click", function(event) {
+      event.preventDefault();
+      var newCharacter = {
+        name: $("#name").val().trim(),
+        role: $("#role").val().trim(),
+        age: $("#age").val().trim(),
+        forcePoints: $("#force-points").val().trim()
+      };
+
+      $.post("/api/characters", newCharacter)
+        .then(function(data) {
+          console.log("add.html", data);
+          alert("Adding character...");
+        });
+    });
+  </script>
+
+</body>
+</html>
