@@ -1,23 +1,26 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="UTF-8">
   <title>Friend Finder - Survey</title>
   <!-- Latest compiled and minified CSS & JS -->
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
-  <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.5.0/css/all.css" integrity="sha384-B4dIYHKNBt8Bc12p+WXckhzcICo0wtJAoU8YZTY5qE0Id1GSseTk6S+L3BlXeVIU" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.5.0/css/all.css" integrity="sha384-B4dIYHKNBt8Bc12p+WXckhzcICo0wtJAoU8YZTY5qE0Id1GSseTk6S+L3BlXeVIU"
+    crossorigin="anonymous">
   <script src="https://code.jquery.com/jquery.js"></script>
   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
 
 </head>
+
 <body>
 
   <div class="container">
     <div class="jumbotron">
-        <h1 class="text-center"><i class="fas fa-user-friends"></i> Friend Finder</h1>
-        <hr>
-        <h2 class="text-center">Find your friend match today!</h2>
-        <br>
+      <h1 class="text-center"><i class="fas fa-user-friends"></i> Friend Finder</h1>
+      <hr>
+      <h2 class="text-center">Find your friend match today!</h2>
+      <br>
     </div>
     <div class="row">
 
@@ -70,7 +73,7 @@
 
               <div class="form-group">
                 <label for="sel4">How often do you eat out?</label>
-                <select class="form-control" id="sel3">
+                <select class="form-control" id="sel4">
                   <option value="1">1 - Not so much</option>
                   <option value="2">2</option>
                   <option value="3">3 - Indifferent</option>
@@ -82,7 +85,8 @@
             </form>
             <br>
             <div class="text-right">
-              <button type="submit" class="btn btn-primary btn-md" id="add-btn"><span class="fa fa-fire"></span> Find a Match!</button>
+              <button type="submit" class="btn btn-primary btn-md" id="add-btn"><span class="fa fa-fire"></span> Find a
+                Match!</button>
             </div>
           </div>
         </div>
@@ -92,22 +96,40 @@
   </div>
 
   <script type="text/javascript">
-    $("#add-btn").on("click", function(event) {
+    $("#add-btn").on("click", function (event) {
       event.preventDefault();
-      var newCharacter = {
-        name: $("#name").val().trim(),
-        role: $("#role").val().trim(),
-        age: $("#age").val().trim(),
-        forcePoints: $("#force-points").val().trim()
+
+      var scoreArray = [];
+      var score1 = $("#sel1").val();
+
+      scoreArray.push($("#sel1").val());
+      scoreArray.push($("#sel2").val());
+      scoreArray.push($("#sel3").val());
+      scoreArray.push($("#sel4").val());
+
+      for (i = 0; i < 6; i++) {
+        scoreArray.push(0);
       };
 
-      $.post("/api/characters", newCharacter)
-        .then(function(data) {
-          console.log("add.html", data);
-          alert("Adding character...");
+      var result = scoreArray.map(function (x) {
+        return parseInt(x, 10);
+      });
+
+      var newProfile = {
+        name: $("#name").val().trim(),
+        scores: result
+      };
+
+      $.post("/api/friends", newProfile)
+        .then(function (data) {
+          console.log(data);
         });
+
+      $.get("/api/friends")
+
     });
   </script>
 
 </body>
+
 </html>
