@@ -17,10 +17,11 @@
 
   <div class="container">
     <div class="jumbotron">
-      <h1 class="text-center"><i class="fas fa-user-friends"></i> Friend Finder</h1>
+      <a href="/">
+        <h1 class="text-center"><i class="fas fa-user-friends"></i> Friend Finder</h1>
+      </a>
       <hr>
       <h2 class="text-center">Find your friend match today!</h2>
-      <br>
     </div>
     <div class="row">
 
@@ -34,7 +35,7 @@
             <form method="POST" role="form">
 
               <div class="form-group">
-                <label for="name">Full Name</label>
+                <label for="name">First and Last Name</label>
                 <input type="text" class="form-control" id="name">
               </div>
 
@@ -82,11 +83,99 @@
                 </select>
               </div>
 
+              <div class="form-group">
+                <label for="sel4">How often do you exercise?</label>
+                <select class="form-control" id="sel5">
+                  <option value="1">1 - Not so much</option>
+                  <option value="2">2</option>
+                  <option value="3">3 - Indifferent</option>
+                  <option value="4">4</option>
+                  <option value="5">5 - A lot</option>
+                </select>
+              </div>
+
+              <div class="form-group">
+                <label for="sel4">How often do you like staying inside?</label>
+                <select class="form-control" id="sel6">
+                  <option value="1">1 - Not so much</option>
+                  <option value="2">2</option>
+                  <option value="3">3 - Indifferent</option>
+                  <option value="4">4</option>
+                  <option value="5">5 - A lot</option>
+                </select>
+              </div>
+
+              <div class="form-group">
+                <label for="sel4">How adventurous are you?</label>
+                <select class="form-control" id="sel7">
+                  <option value="1">1 - Not so much</option>
+                  <option value="2">2</option>
+                  <option value="3">3 - Indifferent</option>
+                  <option value="4">4</option>
+                  <option value="5">5 - A lot</option>
+                </select>
+              </div>
+
+              <div class="form-group">
+                <label for="sel4">How much does personality matter to you?</label>
+                <select class="form-control" id="sel8">
+                  <option value="1">1 - Not so much</option>
+                  <option value="2">2</option>
+                  <option value="3">3 - Indifferent</option>
+                  <option value="4">4</option>
+                  <option value="5">5 - A lot</option>
+                </select>
+              </div>
+
+              <div class="form-group">
+                <label for="sel4">How much do looks matter to you?</label>
+                <select class="form-control" id="sel9">
+                  <option value="1">1 - Not so much</option>
+                  <option value="2">2</option>
+                  <option value="3">3 - Indifferent</option>
+                  <option value="4">4</option>
+                  <option value="5">5 - A lot</option>
+                </select>
+              </div>
+
+              <div class="form-group">
+                <label for="sel4">How much does age matter to you?</label>
+                <select class="form-control" id="sel10">
+                  <option value="1">1 - Not so much</option>
+                  <option value="2">2</option>
+                  <option value="3">3 - Indifferent</option>
+                  <option value="4">4</option>
+                  <option value="5">5 - A lot</option>
+                </select>
+              </div>
+
             </form>
-            <br>
+
             <div class="text-right">
               <button type="submit" class="btn btn-primary btn-md" id="add-btn"><span class="fa fa-fire"></span> Find a
                 Match!</button>
+            </div>
+
+          </div>
+        </div>
+
+        <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+          aria-hidden="true">
+          <div class="modal-dialog" role="document">
+            <div class="modal-content">
+              <div class="modal-header">
+                <h2 class="modal-title" id="exampleModalLabel">We Found A Match!</h2>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                  <span aria-hidden="true">&times;</span>
+                </button>
+              </div>
+              <div class="modal-body">
+                <h3 id="modal-text"></h3>
+                <img id="modal-image">
+              </div>
+              <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+              </div>
             </div>
           </div>
         </div>
@@ -97,30 +186,43 @@
 
   <script type="text/javascript">
 
+    $(document).on('keypress', '#name', function (event) {
+      var regex = new RegExp("^[a-zA-Z ]+$");
+      var key = String.fromCharCode(!event.charCode ? event.which : event.charCode);
+      if (!regex.test(key)) {
+        event.preventDefault();
+        return false;
+      };
+    });
+
     $("#add-btn").on("click", function (event) {
       event.preventDefault();
 
+      if ($("#name").val() == "") {
+        alert("Please enter a valid name.");
+        return;
+      }
+
       var scoreArray = [];
 
-      scoreArray.push($("#sel1").val());
-      scoreArray.push($("#sel2").val());
-      scoreArray.push($("#sel3").val());
-      scoreArray.push($("#sel4").val());
-
-      for (i = 0; i < 6; i++) {
-        scoreArray.push(0);
-      };
+      for (i = 1; i < 11; i++) {
+        scoreArray.push($("#sel" + i).val());
+      }
 
       var newProfile = {
         name: $("#name").val().trim(),
         scores: scoreArray
       };
-
+      // Sets the modal image and text and resets the parameters.
       $.post("/api/friends", newProfile)
         .then(function (data) {
-          console.log(data);
-        });
+          $("#modal-image").attr('src', data.photo);
+          $("#modal-text").text(data.name);
+          $("#exampleModal").modal();
 
+          $("#name").val("");
+          scoreArray = [];
+        });
     });
 
   </script>

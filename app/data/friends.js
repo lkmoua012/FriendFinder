@@ -46,6 +46,38 @@ var friendArray = [
             5,
             5
         ]
+    },
+    {
+        name: "Harper Mason",
+        photo: "https://randomuser.me/api/portraits/women/66.jpg",
+        scores: [
+            2,
+            4,
+            4,
+            5,
+            4,
+            2,
+            3,
+            4,
+            4,
+            1
+        ]
+    },
+    {
+        name: "Hugh Duncan",
+        photo: "https://randomuser.me/api/portraits/men/4.jpg",
+        scores: [
+            2,
+            2,
+            1,
+            4,
+            5,
+            4,
+            3,
+            1,
+            3,
+            5
+        ]
     }
 ];
 
